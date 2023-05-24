@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering URLB</title>
+    <!-- Bulma CSS  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Font Awesome icons  -->
+    <script src="https://kit.fontawesome.com/b165665cab.js" crossorigin="anonymous"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-07K9EMGRS7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-07K9EMGRS7');
+    </script>
+</head>
+
+<body>
+    <div class="container p-3 is-primary">
+        <!-- Title section -->
+        <h1 class="title is-1 is-spaced has-text-centered	">Mastering the Unsupervised Reinforcement Learning Benchmark from Pixels</h1>
+
+        <div class="columns is-mobile is-centered is-multiline">
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <a href="https://sairajeswar.com/">
+                    <figure class="image container is-96x96" >
+                        <img class="is-rounded" src="./resources/avatars/sai_rajeswar.png">
+                    </figure>
+                    <p class="subtitle is-5"> Sai Rajeswar*</p>
+                </a>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <a href="https://mazpie.github.io/">
+                    <figure class="image container is-96x96">
+                        <img class="is-rounded" src="./resources/avatars/pietro_mazzaglia.png">
+                    </figure>
+                    <p class="subtitle is-5"> Pietro Mazzaglia*</p>
+                </a>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <figure class="image container is-96x96">
+                    <img class="is-rounded" src="./resources/avatars/tim_verbelen.jpg">
+                </figure>
+                <p class="subtitle is-5"> Tim Verbelen</p>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <figure class="image container is-96x96">
+                    <img class="is-rounded" src="./resources/avatars/alexandre_piche.avif">
+                </figure>
+                <p class="subtitle is-5"> Alexandre Piché</p>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <figure class="image container is-96x96">
+                    <img class="is-rounded" src="./resources/avatars/bart_dhoedt.jpeg">
+                </figure>
+                <p class="subtitle is-5"> Bart Dhoedt</p>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <figure class="image container is-96x96">
+                    <img class="is-rounded" src="./resources/avatars/aaron_courville.jpg">
+                </figure>
+                <p class="subtitle is-5"> Aaron Courville</p>
+            </div>
+            <div class="column is-one-third-mobile is-narrow-desktop">
+                <figure class="image container is-96x96">
+                    <img class="is-rounded" src="./resources/avatars/alex_lacoste.jpg">
+                </figure>
+                <p class="subtitle is-5"> Alexandre Lacoste</p>
+            </div>
+        </div>
+        <div class="block is-center has-text-centered">
+            <span>* Equal contribution </span>
+        </div>
+        <div class="block is-center has-text-centered">
+            <a class="button is-rounded" href="https://arxiv.org/abs/2209.12016">
+                <span class="icon is-small"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i></span>
+                <span>Article</span>
+            </a>
+            <a class="button is-rounded" href="">
+                <span class="icon is-small"><i class="fa-brands fa-github" aria-hidden="true"></i></span>
+                <span>Code (coming soon)</span>
+            </a>
+
+            <br />
+            <br />
+
+            <div class="columns is-centered is-mobile">
+                <div class="column is-full-mobile is-two-thirds-tablet is-two-thirds-desktop">
+                    <figure class="image">
+                        <img src="./resources/model_summary.jpg" />
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abstract -->
+        <div class="block box">
+            <h2 class="title is-3"> Abstract </h2>
+            <p class="is-size-5">
+                Controlling artificial agents from visual sensory data is an arduous task. 
+                Reinforcement learning (RL) algorithms can succeed but require large amounts of interactions between the agent and the environment. 
+                To alleviate the issue, unsupervised RL proposes to employ self-supervised interaction and learning, for adapting faster to future tasks. 
+                Yet, as shown in the Unsupervised RL Benchmark (URLB; Laskin et al. 2021), whether current unsupervised strategies can improve generalization capabilities is still unclear, especially in visual control settings. 
+                In this work, we study the URLB and propose a new method to solve it, using unsupervised model-based RL, for pre-training the agent, and a task-aware fine-tuning strategy combined with a new proposed hybrid planner, Dyna-MPC, to adapt the agent for downstream tasks. 
+                On URLB, our method obtains 93.59% overall normalized performance, surpassing previous baselines by a staggering margin. 
+                The approach is empirically evaluated through a large-scale empirical study, which we use to validate our design choices and analyze our models. 
+                We also show robust performance on the Real-Word RL benchmark, hinting at resiliency to environment perturbations during adaptation.
+            </p>
+        </div>
+
+        <br />
+
+        <!-- Exploration -->
+        <div class="block box is-size-4">
+            <h2 class="title is-3"> Exploration </h2>
+            <div class="content">
+                We display exploration policies for each domain, for each method, at different timesteps.
+            </div>
+            <div class="block box">
+                <p class="subtitle is-3"> Walker </p>
+                <div class="columns is-mobile is-centered is-multiline is-1 is-variable">
+                    <div style="display:flex; flex-direction:column" class="column has-text-centered is-one-quarter-mobile">
+                        <div style="flex:1">
+                            &#8205; 
+                        </div>
+                        <div style="flex:1">
+                            100k
+                        </div>
+                        <div style="flex:1">
+                            500k
+                        </div>
+                        <div style="flex:1">
+                            1M
+                        </div>
+                        <div style="flex:1">
+                            2M
+                        </div>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> ICM </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/icm_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/icm_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/icm_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/icm_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> RND </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/rnd_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/rnd_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/rnd_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/rnd_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> LBS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/lbs_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/lbs_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/lbs_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/lbs_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> P2E </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/plan2explore/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/plan2explore/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/plan2explore/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/plan2explore/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APT </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/apt_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/apt_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/apt_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/apt_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> DIAYN </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/diayn_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/diayn_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/diayn_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/diayn_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/aps_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/aps_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/aps_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/walker/aps_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="block box">
+                <p class="subtitle is-3"> Quadruped </p>
+                <div class="columns is-mobile is-centered is-multiline is-1 is-variable">
+                    <div style="display:flex; flex-direction:column" class="column has-text-centered is-one-quarter-mobile">
+                        <div style="flex:1">
+                            &#8205; 
+                        </div>
+                        <div style="flex:1">
+                            100k
+                        </div>
+                        <div style="flex:1">
+                            500k
+                        </div>
+                        <div style="flex:1">
+                            1M
+                        </div>
+                        <div style="flex:1">
+                            2M
+                        </div>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> ICM </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/icm_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/icm_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/icm_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/icm_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> RND </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/rnd_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/rnd_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/rnd_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/rnd_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> LBS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/lbs_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/lbs_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/lbs_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/lbs_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> P2E </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/plan2explore/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/plan2explore/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/plan2explore/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/plan2explore/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APT </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/apt_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/apt_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/apt_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/apt_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> DIAYN </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/diayn_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/diayn_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/diayn_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/diayn_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/aps_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/aps_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/aps_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/quadruped/aps_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="block box">
+                <p class="subtitle is-3"> Jaco </p>
+                <div class="columns is-mobile is-centered is-multiline is-1 is-variable">
+                    <div style="display:flex; flex-direction:column" class="column has-text-centered is-one-quarter-mobile">
+                        <div style="flex:1">
+                            &#8205; 
+                        </div>
+                        <div style="flex:1">
+                            100k
+                        </div>
+                        <div style="flex:1">
+                            500k
+                        </div>
+                        <div style="flex:1">
+                            1M
+                        </div>
+                        <div style="flex:1">
+                            2M
+                        </div>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> ICM </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/icm_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/icm_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/icm_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/icm_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> RND </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/rnd_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/rnd_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/rnd_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/rnd_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> LBS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/lbs_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/lbs_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/lbs_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/lbs_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> P2E </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/plan2explore/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/plan2explore/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/plan2explore/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/plan2explore/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APT </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/apt_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/apt_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/apt_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/apt_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> DIAYN </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/diayn_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/diayn_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/diayn_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/diayn_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>                    <div class="column has-text-centered is-one-quarter-mobile">
+                        <div class="has-text-centered"> APS </div>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/aps_dreamer/100000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/aps_dreamer/500000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/aps_dreamer/1000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                        <figure class="image">
+                            <video autoplay loop muted style="width:100% !important; height:auto !important">
+                                <source src="./resources/urlb_expl_videos/jaco/aps_dreamer/2000000.mp4" type="video/mp4">
+                              </video>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <br\>        
+            <div class="block box is-size-5">
+                <h2 class="title is-3"> Citation </h2>
+                    <div class="content notification">
+                        @inproceedings{ <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; Rajeswar2023MasterURLB, <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; title={Mastering the Unsupervised Reinforcement Learning Benchmark from Pixels}, <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; author={Sai Rajeswar and Pietro Mazzaglia and Tim Verbelen and Alexandre Piché and Bart Dhoedt and Aaron Courville and Alexandre Lacoste}, <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; booktitle={40th International Conference on Machine Learning}, <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; year={2023}, <br />
+                        &nbsp; &nbsp; &nbsp; &nbsp; url={https://arxiv.org/abs/2209.12016} <br />
+                        } <br />
+                    </div>
+                </div>
+            </div>
+        
+            <footer class="footer pt-5 pb-5">
+                <div class="content has-text-centered">
+                    <p>
+                        Website created by
+                        <a href="https://mazpie.github.io"><strong>Pietro Mazzaglia</strong></a>.
+                        <br />
+                        <br />
+                        You are free to borrow the source code,
+                        but please link back to this page in your footer <br />
+                        (and remember to remove the analytics code included in the header of the website).
+                    </p>
+                </div>
+            </footer>
+            </div>
+        </div>
+</body>
+
+</html>
